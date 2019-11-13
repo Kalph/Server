@@ -7,7 +7,7 @@ Servlet/JSP
 
 > ## 목차 <br>
  1일 - [설치+기본세팅+Servlet,JSP(기초)]() <br/>
- 2일 - []() <br/>
+ 2일 - [JSP,Servlet(로그인,로그아웃)]() <br/>
  3일 - []() <br/>
  
  <br/> 
