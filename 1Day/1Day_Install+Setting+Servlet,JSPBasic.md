@@ -2,7 +2,7 @@
 =============
 * [설치](#설치)<br>
 * [기본 세팅](#기본-세팅) <br>
-* [Servlet/JSP 기초](#Servlet/JSP-기초) <br>
+* [Servlet/JSP 기초](#ServletJSP-기초) <br>
 
 <br>
 
