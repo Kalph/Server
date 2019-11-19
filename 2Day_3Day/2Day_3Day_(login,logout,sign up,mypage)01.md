@@ -22,7 +22,7 @@ create sequence test_no;
 
 insert into test values(test_no.nextval,'admin','1234','관리자','01012345678','admin@12.kr',null,sysdate,default,default);
 ```
-
+ 
 <br>
 <hr>
 <br>
