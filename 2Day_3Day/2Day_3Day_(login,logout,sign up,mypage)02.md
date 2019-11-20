@@ -398,47 +398,61 @@ public class testLogoutServlet extends HttpServlet {
 <br>
 
 ```java
-package test.controller;
+package test.model.dao;
 
+import java.io.FileReader;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
 
-/**
- * Servlet implementation class testLogoutServlet
- */
-@WebServlet("/logout.me")
-public class testLogoutServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public testLogoutServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+import test.model.vo.Test;
+import static common.JDBCTemplate.*;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().invalidate();
-		response.sendRedirect(request.getContextPath());
+public class TestDao {
+	private Properties prop = new Properties();
+
+	public TestDao() {
+		try {
+			prop.load(new FileReader(TestDao.class.getResource("/sql/test/test-query.properties").getPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	public Test loginTest(Connection con, String logId, String logPwd) {
+		Test testLogin = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String sql = prop.getProperty("loginTest");
+
+		try {
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, logId);
+			pstmt.setString(2, logPwd);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				testLogin = new Test(rs.getInt(1), rs.getString(2), rs.getString(3), 
+						rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7), 
+						rs.getDate(8), rs.getDate(9), rs.getString(10));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return testLogin;
 	}
 
 }
+
 ```
 
 <br>
