@@ -2,9 +2,12 @@
 
 <br>
 
-```prop
-sql/test/test-query.properties
 
+### sql/test/test-query.properties
+
+<br>
+
+```prop
 loginTest=select * from test where t_id=? and t_pwd=? and st='Y'
 idCheck=select * from test where t_id=
 insertTest=insert into test values(seq_test.nextval,?,?,?,?,?,?,sysdate,sysdate,default)
@@ -14,7 +17,7 @@ insertTest=insert into test values(seq_test.nextval,?,?,?,?,?,?,sysdate,sysdate,
 <hr>
 <br>
 
-## test/controller/idCheckServlet.java
+### test/controller/idCheckServlet.java
 <br>
 
 ```java
@@ -75,7 +78,7 @@ public class idCheckServlet extends HttpServlet {
 <hr>
 <br>
 
-## test/controller/insertTestServlet.java
+### test/controller/insertTestServlet.java
 
 <br>
 
@@ -157,7 +160,7 @@ public class insertTestServlet extends HttpServlet {
 <hr>
 <br>
 
-##test/model/service/TestService.java
+### test/model/service/TestService.java
 
 <br>
 
@@ -212,7 +215,7 @@ public class TestService {
 <br>
 
 
-## test/model/dao/TestDao.java
+### test/model/dao/TestDao.java
 
 <br>
 
@@ -329,7 +332,7 @@ public class TestDao {
 <hr>
 <br>
 
-## WebContent/views/tMember/testMemberJoin.jsp
+### WebContent/views/tMember/testMemberJoin.jsp
 
 <br>
 
@@ -472,7 +475,7 @@ public class TestDao {
 <hr>
 <br>
 
-## WebContent/views/tMember/idCheck.jsp
+### WebContent/views/tMember/idCheck.jsp
 
 <br>
 
