@@ -446,7 +446,7 @@ public class TestDao {
 		}
 		
 		function chkJoin(){
-			if(!(/^[a-z\d가-힣]{4,121}$/.test($("#testJoinForm input[name=testId]").val()))){
+			if(!(/^[a-z\d가-힣]{4,12}$/.test($("#testJoinForm input[name=testId]").val()))){
 				alert('아이디는 최소 영/한/숫자로 시작하여 4자부터 12자');
 				$("#testJoinForm input[name=testId]").select();
 				return false;
