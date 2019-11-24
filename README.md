@@ -7,11 +7,11 @@ Servlet/JSP
 
 > ## 목차 <br>
  1Day - [설치+기본세팅+Servlet,JSP(기초)](https://github.com/Kalph/Server/tree/master/1Day) <br/>
- 2Day~3Day - [Servlet,JSP(로그인,로그아웃,회원가입)](https://github.com/Kalph/Server/tree/master/2Day_3Day) <br/>
+ 2Day~3Day - [Servlet,JSP(로그인,로그아웃,회원가입정보수정)](https://github.com/Kalph/Server/tree/master/2Day_3Day) <br/>
  4 - [Servlet,JSP(회원가입(아이디 중복 체크))](https://github.com/Kalph/Server/tree/master/4) <br/>
- 5 - [Servlet/JSP(정보수정)]() <br/>
+ 5 - [Servlet/JSP(정보수정)]() <br/><br/>
  5 - [게시판CRUD(등록,삭제,수정,검색)]()<br/>
- 6 - [게시판(페이징)]()<br/>
+ 6 - [게시판(페이징)]()<br/><br/>
  7 - [사진게시판(다운로드 기능)]()<br/>
  8 - [사진게시판CRUD,페이징]()<br/>
  
