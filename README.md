@@ -26,4 +26,4 @@ Servlet/JSP
  * 그외 <br/>
   [Statement, PreparedStatement like 사용 차이](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/1.%20Statement%2C%20PreparedStatement%20like%20%EC%82%AC%EC%9A%A9%20%EC%B0%A8%EC%9D%B4.md) <br/>
   [게시판용 디자인 1](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/2.%20noticeBoardFormDesign.md) <br/>
-  []() <br/>
+  [게시판용 디자인 2]() <br/>
