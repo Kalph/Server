@@ -1,7 +1,7 @@
-Servlet/JSP
+Servlet/JSP/Ajax
 ==============
 
-### Servlet/JSP 공부에 관한 내용들을 정리하였습니다.
+### Servlet/JSP/Ajax 공부에 관한 내용들을 정리하였습니다.
 
 <br/>
 
@@ -21,7 +21,7 @@ Servlet/JSP
  10 - [필터,래퍼(암호화)]()<br>
  11 - [Ajax]()<br><br>
  
- 12 - [Ajax 댓글 달기]()<br/
+ 12 - [Ajax 댓글 달기]()<br/>
  
  <br/> 
  
