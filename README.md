@@ -29,5 +29,5 @@ Servlet/JSP/Ajax
   [Statement, PreparedStatement like 사용 차이](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/1.%20Statement%2C%20PreparedStatement%20like%20%EC%82%AC%EC%9A%A9%20%EC%B0%A8%EC%9D%B4.md) <br/>
   [게시판용 디자인 1](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/2.%20noticeBoardFormDesign.md) <br/>
   [게시판용 디자인 2](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/3.%20noticeBoardDesign2.md) <br/>
-  [cannot be resolved to a type 오류]()<br>
+  [cannot be resolved to a type 오류](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/4.%20cannot%20be%20resolved%20to%20a%20type%20Error.md)<br>
   []()<br>
