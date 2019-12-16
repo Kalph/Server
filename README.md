@@ -31,5 +31,5 @@ Servlet/JSP/Ajax
   [게시판용 디자인 1](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/2.%20noticeBoardFormDesign.md) <br/>
   [게시판용 디자인 2](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/3.%20noticeBoardDesign2.md) <br/>
   [cannot be resolved to a type 오류](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/4.%20cannot%20be%20resolved%20to%20a%20type%20Error.md)<br>
-  [게시판 디자인 display, table-cell, p 문제 해결]()<br>
+  [게시판 디자인 display, table-cell, p 문제 해결](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/5.%20noticeBoard%20design%20(display%2Ctable-cell%2Cp)%20troubleShooting.md)<br>
   []()<br>
