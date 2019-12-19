@@ -33,4 +33,5 @@ Servlet/JSP/Ajax
   [게시판용 디자인 2](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/3.%20noticeBoardDesign2.md) <br/>
   [cannot be resolved to a type 오류](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/4.%20cannot%20be%20resolved%20to%20a%20type%20Error.md)<br>
   [게시판 디자인 display, table-cell, p 문제 해결](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/5.%20noticeBoard%20design%20(display%2Ctable-cell%2Cp)%20troubleShooting.md)<br>
+  [request.setattribute 과 request.getsession().setattribute 차이](https://github.com/Kalph/Server/blob/master/%EA%B7%B8%EC%99%B8/6.%20request.setattribute%20%EA%B3%BC%20request.getsession().setattribute%20%EC%B0%A8%EC%9D%B4.md)<br>
   []()<br>
