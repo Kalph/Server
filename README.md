@@ -12,9 +12,9 @@ Servlet/JSP/Ajax
  5 - [Servlet/JSP(정보수정)](https://github.com/Kalph/Server/tree/master/5) <br/><br/>
  
  6 - [CRUD공지사항 게시판]()<br/>
- 7 - [일반 CRUD게시판(등록,삭제,수정,검색)]()<br/>
+ 7 - [CRUD 사진 게시판(등록,삭제,수정,검색)]()<br/>
  8 - [게시판 내부 사진(다운로드 기능)]()<br>
- 9 - [게시판(페이징)]()<br/> 
+ 9 - [게시판(페이징)]()<br/>
  10 - [게시판(필터링 기능)]()<br>
  11 - [게시판 조회수]()<br><br>
  
