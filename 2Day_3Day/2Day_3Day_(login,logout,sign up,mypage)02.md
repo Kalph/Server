@@ -320,7 +320,10 @@ public class testLoginServlet extends HttpServlet {
 		if(loginTest != null) {
 			request.getSession().setMaxInactiveInterval(600);
 			request.getSession().setAttribute("loginTest", loginTest);
-			response.sendRedirect(request.getContextPath());
+			
+			// 이전 화면으로 돌아가게 만들기
+			String referer = request.getHeader("Referer");
+			response.sendRedirect("/" + referer.substring(referer.lastIndexOf("/")+1));
 		} else {
 			request.setAttribute("msg", "로그인 실패, 관리자에게 문의해 주세요.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
@@ -337,6 +340,7 @@ public class testLoginServlet extends HttpServlet {
 	}
 
 }
+
 ```
 
 <br>
