@@ -1,0 +1,4 @@
+```java
+String referer = request.getHeader("Referer");
+response.sendRedirect("/" + referer.substring(referer.lastIndexOf("/")+1));
+```
