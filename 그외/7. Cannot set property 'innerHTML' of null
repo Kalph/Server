@@ -1,0 +1,26 @@
+```java
+  <script type="text/javascript">
+		document.getElementById("mainName").innerHTML = "공지 사항";
+	</script>
+	<%@ include file="../common/testMain.jsp"%>
+```
+<br>
+
+위와 같은 구문 순서에서는 Cannot set property 'innerHTML' of null 오류가 발생한다.
+
+<br>
+
+그 이유는 id가 mainName이 포함된 testMain.jsp가 페이지에 구현?되기 전에 위 구문에서 script를 통해 mainName의 내용을 공지사항으로 수정하려 하기 때문이다.
+
+<br>
+
+다음과 같이 글 순서를 수정해 주면 된다.
+
+<br>
+
+```java
+	<%@ include file="../common/testMain.jsp"%>
+	<script type="text/javascript">
+		document.getElementById("mainName").innerHTML = "공지 사항";
+	</script>
+```
