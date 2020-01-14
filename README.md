@@ -12,7 +12,7 @@ Servlet/JSP/Ajax
  5 - [Servlet/JSP(정보수정)](https://github.com/Kalph/Server/tree/master/5) <br/><br/>
  
  6 - [CRUD 공지사항 게시판]()<br/>
- 7 - [CRUD 사진 게시판]()<br/><br>
+ 7 - [CRUD 일반/사진 게시판]()<br/><br>
  
  8 - [필터,래퍼(암호화)]()<br><br>
  
