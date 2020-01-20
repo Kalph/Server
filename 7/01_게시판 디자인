@@ -1,0 +1,372 @@
+<b>게시판 디자인 및 간단 스크립트</b>
+
+<br><hr>
+
+### src/board/controller/BoardListServlet.java
+
+<br>
+
+```java
+package board.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class BoardListServlet
+ */
+@WebServlet("/list.bo")
+public class BoardListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BoardListServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+```
+
+<br><hr>
+
+### src/board/model/vo/Board.java
+
+<br>
+
+```java
+package board.model.vo;
+
+import java.util.Date;
+
+public class Board {
+	private int  bId;
+	private int bType;
+	private String bCid;
+	private String bTitle;
+	private String bContent;
+	private String bWriter;
+	private int viewCt;
+	private Date cDate;
+	private Date mDate;
+	private String st;
+	
+	public Board() {}
+	
+	public Board(int bId, int bType, String bCid, String bTitle, String bContent, String bWriter, int viewCt,
+			Date cDate, Date mDate, String st) {
+		super();
+		this.bId = bId;
+		this.bType = bType;
+		this.bCid = bCid;
+		this.bTitle = bTitle;
+		this.bContent = bContent;
+		this.bWriter = bWriter;
+		this.viewCt = viewCt;
+		this.cDate = cDate;
+		this.mDate = mDate;
+		this.st = st;
+	}
+
+	public int getbId() {
+		return bId;
+	}
+
+	public void setbId(int bId) {
+		this.bId = bId;
+	}
+
+	public int getbType() {
+		return bType;
+	}
+
+	public void setbType(int bType) {
+		this.bType = bType;
+	}
+
+	public String getbCid() {
+		return bCid;
+	}
+
+	public void setbCid(String bCid) {
+		this.bCid = bCid;
+	}
+
+	public String getbTitle() {
+		return bTitle;
+	}
+
+	public void setbTitle(String bTitle) {
+		this.bTitle = bTitle;
+	}
+
+	public String getbContent() {
+		return bContent;
+	}
+
+	public void setbContent(String bContent) {
+		this.bContent = bContent;
+	}
+
+	public String getbWriter() {
+		return bWriter;
+	}
+
+	public void setbWriter(String bWriter) {
+		this.bWriter = bWriter;
+	}
+
+	public int getViewCt() {
+		return viewCt;
+	}
+
+	public void setViewCt(int viewCt) {
+		this.viewCt = viewCt;
+	}
+
+	public Date getcDate() {
+		return cDate;
+	}
+
+	public void setcDate(Date cDate) {
+		this.cDate = cDate;
+	}
+
+	public Date getmDate() {
+		return mDate;
+	}
+
+	public void setmDate(Date mDate) {
+		this.mDate = mDate;
+	}
+
+	public String getSt() {
+		return st;
+	}
+
+	public void setSt(String st) {
+		this.st = st;
+	}
+
+	@Override
+	public String toString() {
+		return "Board [bId=" + bId + ", bType=" + bType + ", bCid=" + bCid + ", bTitle=" + bTitle + ", bContent="
+				+ bContent + ", bWriter=" + bWriter + ", viewCt=" + viewCt + ", cDate=" + cDate + ", mDate=" + mDate
+				+ ", st=" + st + "]";
+	}
+}
+```
+
+<br><hr>
+
+### WebContent/views/board/boardListView.jsp
+
+<br>
+
+```java
+<%@page import="java.util.ArrayList, board.model.vo.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% 
+	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사진 게시판</title>
+</head>
+<%@ include file="../common/testMain.jsp"%>
+<style>
+	body {
+        background: white;
+        display: table;
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;
+        height: 100%;
+        background: url('<%=request.getContextPath()%>/resources/images/cat.jpg');
+		background-size: cover;
+    }
+
+    .main-wrap{
+        float: left;
+        width: 60%;
+    }
+
+    .filter-wrap {
+    	background-color:#ffd663;
+        margin: 40px 31px 0px 31px;
+        border-radius: 5px;
+        float: left;
+        border: 1px solid rgba(128, 128, 128, 0.356);
+        width: 25%;
+        height: 500px;
+    }
+    
+    div {
+        box-sizing: border-box;
+    }
+
+    .tag {
+        box-shadow: 2px 1px 2px 1px gray;
+        background-color: orangered;
+        border-radius: 10px;
+        opacity: 0.8;
+        position: relative;
+        width: 120px;
+        height: 40px;
+        border: 1px solid red;
+    }
+
+    .tag>h3 {
+        color: white;
+        margin: auto;
+        margin-top: auto;
+        text-align: center;
+        margin: 6px 0px;
+        height: 38px;
+    }
+
+    .info-btn{
+        position: absolute;
+        left: 450%;
+        top:1150%;
+        font-weight: 700;
+        color: black;
+        background-color: white;
+        border-radius: 10px;
+        margin: 6px 0px;
+        height: 38px;
+
+    }
+
+    .in-wrap{
+        width: 100%;
+        height: 100%;
+    }
+
+    .thumb-pic {
+        box-sizing: border-box;
+        margin: auto;
+        width: 30%;
+        height: 100%;
+    }
+
+    .thumb-pic img {
+        box-sizing: border-box;
+        width: 100%;
+        height: 50%;
+    }
+
+    .stage {
+        padding:15px;
+        width: 70%;
+        height: 100%;
+    }
+
+    .wrap>a>* {
+        display: table-cell;
+    }
+
+    .stage>h2,
+    p {
+        color: black;
+        vertical-align: top;
+        text-align: center;
+    }
+
+    .stage>h2 {
+        margin: auto;
+        width: 100%;
+        height: 30%;
+    }
+
+    .stage>p{
+        margin-top: 5px;
+        width: 100%;
+        height: 65%;
+
+    }
+
+    .stage>*{
+        word-break: break-all;
+    } 
+
+    .wrap{
+        padding: 20px;
+        border-radius: 5px;
+        border-top: solid 1px rgba(128, 128, 128, 0.356);
+        background-color:#ffd663;
+    }
+
+    .in-wrap{
+        text-decoration: none;
+    } 
+
+</style>
+<body>
+	<script type="text/javascript">
+		document.getElementById("mainName").innerHTML = "사진 게시판";
+	</script>
+    <div class="tag">
+        <h3>사진 게시판</h3>
+    </div>
+    <br>
+
+    <div class="main-wrap">
+    	<% if(list.isEmpty()) { %>
+    	<div class="wrap">
+            <p>게시글이 존재하지 않습니다.</p>
+        </div>
+    	<% } else { %>
+			<div class="wrap">
+            <a class="in-wrap" href="#">
+                <p class="thumb-pic">
+                    <img src="img/K-101.png">
+                </p>
+                <div class="stage">
+                    <h2>경복궁의 경치</h2>
+                    <p>명물로도 유명한 경복의 경치는 무척이나 아름답다.</p>
+                </div>
+            </a>
+        </div>
+        <% } %>
+    </div>
+    
+    <div class="filter-wrap">
+        gd
+    </div>
+</body>
+</html>
+```
+
+<br><hr>
+
+### DB
+
+<br>
+
+insert into board values(seq_bid.nextval,2,10,'제목1','내용1',1,default,sysdate,sysdate,default);
