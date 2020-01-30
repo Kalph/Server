@@ -1,0 +1,694 @@
+<b>게시판 상세보기, 업데이트, 수정하기</b>
+
+<hr><br>
+
+### src/board/controller/boardDetailServlet.java
+
+<br>
+
+```java
+package board.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import board.model.service.BoardService;
+import board.model.vo.Board;
+
+/**
+ * Servlet implementation class boardDetailServlet
+ */
+@WebServlet("/detail.bo")
+public class boardDetailServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public boardDetailServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int bId = Integer.parseInt(request.getParameter("bId"));
+
+		Board bo = null;
+
+		boolean isN = false;
+		Cookie[] coo = request.getCookies();
+		if (coo != null) {
+			for (Cookie c : coo) {
+				if (c.getName().equals("bId" + bId)) {
+					isN = true;
+				}
+			}
+
+			if (!isN) {
+				bo = new BoardService().selectBoard(bId);
+				Cookie c1 = new Cookie("bId" + bId, String.valueOf(bId));
+				c1.setMaxAge(1 * 24 * 60 * 60);
+				response.addCookie(c1);
+			} else {
+				bo = new BoardService().selectBoardNoCnt(bId);
+			}
+		}
+		
+		if(bo != null) {
+			request.setAttribute("board", bo);
+			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg","사진 게시판 조회 실패.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+```
+
+<hr><br>
+
+### src/board/controller/boardModifyForm.java 
+
+<br>
+
+```java
+package board.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import board.model.service.BoardService;
+import board.model.vo.Board;
+
+/**
+ * Servlet implementation class boardUpdateServlet
+ */
+@WebServlet("/modifyForm.bo")
+public class boardModifyForm extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public boardModifyForm() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int bId = Integer.parseInt(request.getParameter("bId"));
+		
+		Board bo =  new BoardService().selectBoardNoCnt(bId);
+		
+		if(bo!= null) {
+			request.setAttribute("board", bo);
+			request.getRequestDispatcher("views/board/boardModifyForm.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg", "게시글 조회 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+```
+
+<hr><br>
+
+### src/board/model/dao/BoardDao.java
+
+<br>
+
+```java
+package board.model.dao;
+import static common.JDBCTemplate.*;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import board.model.vo.Board;
+
+public class BoardDao {
+	private Properties prop = new Properties();
+	
+	public BoardDao() {
+		String fileName = BoardDao.class.getResource("/sql/board/board-query.properties").getPath();
+		try {
+			prop.load(new FileReader(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<Board> selectList(Connection con) {
+		ArrayList<Board> list = new ArrayList<Board>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = prop.getProperty("selectList");
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(new Board(rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8), rs.getDate(9), rs.getDate(10),
+						rs.getString(11)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public int plusCount(Connection con, int bId) {
+		int result = 0;
+		Statement stmt = null;
+
+		String sql = prop.getProperty("plusCount");
+		
+		try {
+			stmt = con.createStatement();
+			result = stmt.executeUpdate(sql+bId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+		}
+		return result;
+	}
+
+	public Board selectBoard(Connection con, int bId) {
+		Board b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = prop.getProperty("selectBoard");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bId);
+			rs = pstmt.executeQuery();
+			
+			// if 대체 가능 -> 하나의 값만 뽑아오기 때문
+			while(rs.next()) {
+				b = new Board(rs.getInt("bid"), rs.getInt("btype"), rs.getString("cname"), rs.getString("btitle"),
+						rs.getString("bcontent"), rs.getInt("bwriter") + "," + rs.getString("t_name"),
+						rs.getInt("view_ct"), rs.getDate("create_date"), rs.getDate("modify_date"),
+						rs.getString("st"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return b;
+	}
+
+}
+```
+
+<hr><br>
+
+### src/board/model/service/BoardService.java
+
+<br>
+
+```java
+package board.model.service;
+import static common.JDBCTemplate.*;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import board.model.dao.BoardDao;
+import board.model.vo.Board;
+
+public class BoardService {
+	BoardDao bd = new BoardDao();
+
+	public ArrayList<Board> selectList() {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = bd.selectList(con);
+		close(con);
+		return list;
+	}
+
+	public Board selectBoard(int bId) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		result = bd.plusCount(con, bId);
+		
+		Board b = null;
+		if(result > 0) {
+			b = bd.selectBoard(con, bId);
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		close(con);
+		return b;
+		
+	}
+
+	public Board selectBoardNoCnt(int bId) {
+		Connection con = getConnection();
+		Board b = bd.selectBoard(con, bId);
+		close(con);
+		return b;
+	}
+
+}
+```
+
+<hr><br>
+
+### src/sql/board/board-query.properties
+
+<br>
+
+```java
+selectList=select * from blist
+plusCount=update board set view_ct= view_ct+1 where bid=
+selectBoard=select * from bdetail where bid=?
+```
+
+<hr><br>
+
+### Webcontent/views/board/boardDetailView.jsp
+
+<br>
+
+```java
+<%@page import="board.model.vo.Board"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	Board b = (Board) request.getAttribute("board");
+
+	String[] bW = b.getbWriter().split(",");
+	int userNo = Integer.parseInt(bW[0]);
+	b.setbWriter(bW[1]);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title><%=b.getbTitle()%></title>
+</head>
+<%@ include file="../common/testMain.jsp"%>
+<style>
+	body {
+        background: white;
+        display: table;
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;
+        height: 100%;
+         background: url('<%=cp%>/resources/m-img/cat.jpg');
+		background-size: cover;
+    }
+    .fo {
+        margin-top: 50px;
+        width: 100%;
+        height: 800px;
+        background: #ffd663;
+        margin: auto;
+        border: 1px solid rgba(70, 68, 68, 0.164);
+        box-sizing: border-box;
+    }
+
+    #header{
+        box-sizing: border-box;
+        border: 1px solid rgba(48, 46, 46, 0.363);
+        width: 100%;
+        height: 10%;
+    }
+
+    #content{
+        box-sizing: border-box;
+        height: 70%;
+        margin: 30px 50px 0px 50px;
+    }
+
+    [id^="h-"]{
+        float: left;
+        text-align: center;
+    }
+
+    #h-writer{
+        width: 20%;
+        height: 100%;
+    }
+
+    #h-con{
+        width: 25%;
+        height: 100%;
+    }
+
+    #h-count{
+        font-size: 13px; 
+        margin: 5px 5px 0px 0px;
+        float: right;
+    }
+
+    #footer *{
+		height: 22px;
+		width: 80px;
+		background: yellowgreen;
+		border: yellowgreen;
+		color: white;
+    }
+
+   #h-con span{
+        line-height: 55px;
+        font-size: 13px; 
+    }
+
+    #picMimg{
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    #picMimg>img{
+        width: 100%;
+        height: 100%;
+    }
+
+    </style>
+<body>
+	<script type="text/javascript">
+		document.getElementById("mainName").innerHTML = "사진 게시판 상세내용";
+	</script>
+    <div class="fo">
+        <div id="header">
+            <div id="h-writer">
+                <p>작성자 : <b><%= b.getbWriter() %></b></p>
+            </div>
+            <div id="h-con">
+                <span>분야 : <b><%= b.getbCid() %></b></span>  
+                <span>·</span>
+                <span><%= b.getcDate() %> 작성</span>
+            </div>
+            <div id="h-count">
+                조회수 : <b><%= b.getViewCt() %></b>
+            </div>
+        </div>
+        <div id="content">
+            <div id="title">
+                <h2><%= b.getbTitle().replace("\r\n", "<br>") %></h2>
+            </div>
+            <hr style="margin:20px 0px; border-right: 1px solid #aaaa; border: 0; border-top: 1px solid #eee;">
+            <p id="picMimg"><img src="<%= cp %>/resources/m-img/cat.jpg"></p>
+            <hr style="margin:20px 0px; border-right: 1px solid #aaaa; border: 0; border-top: 1px solid #eee;">
+            <div id="c-content">
+                <p><%= b.getbContent().replace("\r\n", "<br>") %></p>
+            </div>
+        </div>
+        <br>
+        <div id="footer" align="center">
+			<button type="button" onclick="returnList();">목록</button>
+			<% if(loginTest != null) { %>
+				<% if(userNo == loginTest.gettNo() || loginTest.gettNo() == 1) { %>
+					<button id="modifyBtn" type="button" onclick="modifyBoard();">수정</button>
+					<button id="deleteBtn" type="button" onclick="deleteBoard();">삭제</button>
+				<% } %>
+			<% } %>
+		</div> 
+    </div>
+
+    <form action="" id="detailForm" method="post">
+        <input type="hidden" name="bId" value="<%= b.getbId() %>">
+    </form>
+    <script type="text/javascript">
+		function returnList(){
+			location.href="<%= cp %>/list.bo";
+		}
+		
+		function modifyBoard(){
+			$("#detailForm").attr("action","<%= cp%>/modifyForm.bo");
+			$("#detailForm").submit();
+		}
+		
+		function deleteBoard(){
+			$("#detailForm").attr("action","<%= cp%>/delete.bo?bId="+<%= b.getbCid() %>);
+			$("#detailForm").submit();
+		}
+	</script>
+</body>
+</html>
+```
+
+<hr><br>
+
+### Webcontent/views/boardmodifyForm.jsp
+
+<br>
+
+```java
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" import="board.model.vo.Board"%>
+<%
+	Board b = (Board) request.getAttribute("board");
+	String ca = b.getbCid();
+
+	int cate = 0;
+
+	switch (ca) {
+		case "운동" :
+			cate = 10;
+			break;
+		case "게임" :
+			cate = 20;
+			break;
+		case "영화" :
+			cate = 30;
+			break;
+		case "기타" :
+			cate = 40;
+			break;
+	}
+
+	String[] sel = new String[4];
+	sel[(cate / 10) - 1] = "selected";
+%>
+<!DOCTYPE html>
+<%@ include file="../common/testMain.jsp"%>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사진 게시판 수정</title>
+</head>
+<style>
+	body {
+        background: white;
+        display: table;
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;
+        height: 100%;
+         background: url('<%=cp%>/resources/m-img/cat.jpg');
+		background-size: cover;
+    }
+    .fo {
+        margin-top: 50px;
+        width: 100%;
+        height: 800px;
+        background: #ffd663;
+        margin: auto;
+        border: 1px solid rgba(70, 68, 68, 0.164);
+        box-sizing: border-box;
+    }
+
+    #header{
+        box-sizing: border-box;
+        border: 1px solid rgba(48, 46, 46, 0.363);
+        width: 100%;
+        height: 10%;
+    }
+
+    #content{
+        box-sizing: border-box;
+        height: 70%;
+        margin: 30px 50px 0px 50px;
+    }
+
+    [id^="h-"]{
+        float: left;
+        text-align: center;
+    }
+
+    #h-writer{
+        width: 20%;
+        height: 100%;
+    }
+
+    #h-con{
+        width: 25%;
+        height: 100%;
+    }
+
+    #h-count{
+        font-size: 13px; 
+        margin: 5px 5px 0px 0px;
+        float: right;
+    }
+
+    #footer *{
+		height: 22px;
+		width: 80px;
+		background: yellowgreen;
+		border: yellowgreen;
+		color: white;
+    }
+
+   #h-con span{
+        line-height: 55px;
+        font-size: 13px; 
+    }
+
+    #picMimg{
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    #picMimg>img{
+        width: 100%;
+        height: 100%;
+    }
+
+    </style>
+<body>
+	<script type="text/javascript">
+		document.getElementById("mainName").innerHTML = "사진 게시판 수정";
+	</script>
+	<form action="<%=cp%>/update.bo" method="post"
+		onsubmit="return chkTag();">
+		<div class="fo">
+			<input type="hidden" name="bId" value="<%= b.getbId() %>">
+			<div id="header">
+				<div id="h-writer">
+					<p>
+						작성자 : <b><%=loginTest.gettName()%></b>
+					</p>
+				</div>
+				<div id="h-con">
+					<span>분야 : <b> 
+						<select style="width:85px; height:20px;"name="tag">
+								<option>태그를 선택해 주세요.</option>
+								<option value="10" <%=sel[0]%>>운동</option>
+								<option value="20" <%=sel[1]%>>게임</option>
+								<option value="30" <%=sel[2]%>>영화</option>
+								<option value="40" <%=sel[3]%>>기타</option>
+						</select></b></span> <span>·</span> <span><%=b.getcDate()%> 수정</span>
+				</div>
+				<div id="h-count">
+					조회수 : <b><%=b.getViewCt()%></b>
+				</div>
+			</div>
+			<div id="content">
+				<div id="title">
+					<h2><input type="text" size="50" name="title"
+						value="<%=b.getbTitle()%>"></h2>
+				</div>src/
+				<hr
+					style="margin: 20px 0px; border-right: 1px solid #aaaa; border: 0; border-top: 1px solid #eee;">
+				<p id="picMimg">
+					<img src="<%=cp%>/resources/m-img/cat.jpg">
+				</p>
+				<hr
+					style="margin: 20px 0px; border-right: 1px solid #aaaa; border: 0; border-top: 1px solid #eee;">
+				<div id="c-content">
+					<p><textarea name="content" cols="60" rows="15" style="resize: none;"><%=b.getbContent()%></textarea></p>
+				</div>
+			</div>
+			<br>
+			<div id="footer" align="center">
+				<button type="submit" type="submit">수정</button>
+				<button type="button" onclick="javascript:history.back();">취소</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">
+		function chkTag() {
+			if ($("select").val() == "태그를 선택해 주세요.") {
+				alert("태그를 선택해주세요.");
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
+```
+
+<hr><br>
+
+### DB
+
+<br>
+
+### bdetail
+
+<br>
+
+```sql
+create or replace view bdetail as
+select bid,btype,cname,btitle,bcontent,bwriter,t_name,view_ct,create_date,modify_date,b.st
+from board b
+join test on(t_no=bwriter)
+join category using(cid)
+where b.st = 'Y';
+commit;
+``
