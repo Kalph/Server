@@ -11,8 +11,8 @@ Servlet/JSP/Ajax
  4 - [Servlet,JSP(회원가입(아이디 중복 체크))](https://github.com/Kalph/Server/tree/master/4) <br/>
  5 - [Servlet/JSP(정보수정)](https://github.com/Kalph/Server/tree/master/5) <br/><br/>
  
- 6 - [CRUD 공지사항 게시판]()<br/>
- 7 - [CRUD 사진 게시판(사진 다운로드,업로드)]()<br/><br>
+ 6 - [CRUD 공지사항 게시판](https://github.com/Kalph/Server/tree/master/6)<br/>
+ 7 - [CRUD 사진 게시판(사진 다운로드,업로드)](https://github.com/Kalph/Server/tree/master/7)<br/><br>
  
  8 - [필터,래퍼(암호화)]()<br><br>
  
